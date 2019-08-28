@@ -16,13 +16,7 @@ const client = new Twitter({
 });
 const PORT = process.env.PORT || 3000;
 
-const keywords = [
-  "community", 
-  "devrel", 
-  "developer relations", 
-  "developer evangelist", 
-  "developer advocate"
-];
+const keywords = require("./keywords.json");
 
 let stream = client.stream("statuses/filter", {track: keywords});
 let emojiCount = {};
