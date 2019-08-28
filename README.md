@@ -13,6 +13,9 @@ Currently tracking #devrel:
 * [Emojis](http://emoji-tracker-emoji-tracker.b9ad.pro-us-east-1.openshiftapps.com/emojis)
 * [Top Three](http://emoji-tracker-emoji-tracker.b9ad.pro-us-east-1.openshiftapps.com/emojis/top)
 
+## Tracked keywords
+List of keywords that are tracked can be configured in `/keywords.json`
+
 ## Installation instructions
 You can deploy on OpenShift or your own minishift cluster locally:
 * Install [minishift](https://www.okd.io/minishift/)
