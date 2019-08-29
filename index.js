@@ -37,6 +37,10 @@ app.get("/emojis", (req, res) => {
   res.status(200).send(emojiCount);
 });
 
+app.get("/keywords", (req, res) => {
+  res.status(200).send(keywords);
+});
+
 app.get("/emojis/top/:num?", (req, res) => {
   let num = req.params.num || 3;
   let sortable = [];
