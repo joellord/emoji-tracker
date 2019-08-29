@@ -16,7 +16,7 @@ const client = new Twitter({
 });
 const PORT = process.env.PORT || 3000;
 
-const keywords = process.env.KEYWORDS.split(",").map(i=>trim(i)) || require("./keywords.json");
+const keywords = process.env.KEYWORDS.split(",").map(i=>i.replace(/^\s+/, "").replace(/\s$/, "")) || require("./keywords.json");
 
 let stream = client.stream("statuses/filter", {track: keywords});
 let emojiCount = {};
@@ -37,9 +37,10 @@ app.get("/emojis", (req, res) => {
   res.status(200).send(emojiCount);
 });
 
-app.get("/emojis/top", (req, res) => {
-  var sortable = [];
-  for (var emoji in emojiCount) {
+app.get("/emojis/top/:num?", (req, res) => {
+  let num = req.params.num || 3;
+  let sortable = [];
+  for (let emoji in emojiCount) {
       sortable.push([emoji, emojiCount[emoji]]);
   }
   
@@ -52,7 +53,7 @@ app.get("/emojis/top", (req, res) => {
   });
 
   let result = "The top three emojis for #devrel are ";
-  for (let i = 0; i < Math.min(sortable.length, 3); i++) {
+  for (let i = 0; i < Math.min(sortable.length, num); i++) {
     console.log(sortable[i]);
     result += `${sortable[i][0]} (${Math.round(sortable[i][1]/total*100)}%) `;
   }
