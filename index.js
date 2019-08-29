@@ -52,7 +52,7 @@ app.get("/emojis/top/:num?", (req, res) => {
     total += item[1];
   });
 
-  let result = "The top three emojis for #devrel are ";
+  let result = "The top three emojis for your keywords are ";
   for (let i = 0; i < Math.min(sortable.length, num); i++) {
     console.log(sortable[i]);
     result += `${sortable[i][0]} (${Math.round(sortable[i][1]/total*100)}%) `;
