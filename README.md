@@ -8,13 +8,16 @@ Returns a JSON object with the list of emojis that have been tracked and how oft
 `/emojis/top`
 Returns a string showing the top three emojis that have been used.
 
+`/emojis/top/X`
+Returns the top X emojis
+
 ## Demo
 Currently tracking #devrel:
 * [Emojis](http://emoji-tracker-emoji-tracker.b9ad.pro-us-east-1.openshiftapps.com/emojis)
 * [Top Three](http://emoji-tracker-emoji-tracker.b9ad.pro-us-east-1.openshiftapps.com/emojis/top)
 
 ## Tracked keywords
-List of keywords that are tracked can be configured in `/keywords.json`
+List of keywords that are tracked can be configured in `/keywords.json` or in an environment variable.
 
 ## Installation instructions
 You can deploy on OpenShift or your own minishift cluster locally:
@@ -37,3 +40,4 @@ Environment variables can be set in a .env file
 * ACCESS_TOKEN_KEY: Found in the Twitter developer console
 * ACCESS_TOKEN_SECRET: Found in the Twitter developer console
 * PORT: Port on which the express server should run
+* KEYWORDS: (optional) List of keywords to track on Twitter, comma separated
