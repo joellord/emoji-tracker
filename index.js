@@ -23,6 +23,8 @@ let emojiCount = {};
 let tweets = {};
 let latestTweets = [];
 
+const excludedEmojis = ["…", "’", "┳"];
+
 stream.on("connect", event => {
   console.info("Trying to connect to Twitter...");
 });
@@ -34,9 +36,14 @@ stream.on("connected", event => {
 
 stream.on("tweet", event => {
   console.info("Got one: ", event.text);
-  latestTweets.push(event.text);
+  let tweetLink = `https://twitter.com/${event.user.screen_name}/status/${event.id_str}`;
+  let modifiedTweet = `${event.tweet} --@${event.user.screen_name} \n ${tweetLink}`;
+  latestTweets.push(modifiedTweet);
   if (latestTweets.length > 3) latestTweets.shift();
-  let emojis = event.text.match(/\ud83d[\ude00-\ude4f]/g);
+  let emojis = event.text.match(/(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g);
+  
+  emojis = emojis.filter(e => excludedEmojis.indexOf(e) === -1);
+  
   console.log(emojis ? `Emojis: ${emojis}` : "No emoji found");
   if (emojis) {
     emojis.map(emoji => {
