@@ -20,21 +20,27 @@ const keywords = process.env.KEYWORDS.split(",").map(i=>i.replace(/^\s+/, "").re
 
 let stream = client.stream("statuses/filter", {track: keywords});
 let emojiCount = {};
+let tweets = {};
 
 stream.on("tweet", event => {
-  // console.log(event.text);
   let emojis = event.text.match(/\ud83d[\ude00-\ude4f]/g);
   if (emojis) {
     emojis.map(emoji => {
       emojiCount[emoji] ? emojiCount[emoji] = emojiCount[emoji] + 1 : emojiCount[emoji] = 1;
+      tweets[emoji] ? tweets[emoji].push(event.text) : tweets[emoji] = [event.text];
+      if(tweets[emoji].length > 3) {
+        tweets[emoji].splice(0,1);
+      }
     });
   }
-  // console.log(emojiCount);
 });
 
 app.get("/emojis", (req, res) => {
-  console.log("Got a request, sending emoji count");
   res.status(200).send(emojiCount);
+});
+
+app.get("/tweets", (req, res) => {
+  res.status(200).send(tweets);
 });
 
 app.get("/keywords", (req, res) => {
