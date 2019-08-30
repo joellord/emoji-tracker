@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 3000;
 
 const keywords = process.env.KEYWORDS.split(",").map(i=>i.replace(/^\s+/, "").replace(/\s$/, "")) || require("./keywords.json");
 
-let stream = client.stream("statuses/filter", {track: keywords});
+let stream = client.stream("statuses/filter", {track: keywords, language: "en"});
 let emojiCount = {};
 let tweets = {};
 
